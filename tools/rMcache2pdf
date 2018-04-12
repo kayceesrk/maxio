@@ -6,13 +6,22 @@ if [ -z "$1" ] || [ -z "$2" ]
     exit 1
 fi
 
+#Convert the png files in cache to pdfs
 PNG_FILES=`ls $1/*.png`
-
 for i in $PNG_FILES
 do
   convert $i `sed "s/png/pdf/g" <<< "$i"`
 done
+PDF_FILES=`ls $1/*.pdf | sort -V`
 
-PDF_FILES=`ls $1/*.pdf`
-
-pdftk $PDF_FILES cat output $2
+#Figure out the combine command
+SYSTEM=`uname`
+case $SYSTEM in
+	"Darwin")
+		/System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Resources/join.py -o $2 $PDF_FILES;;
+	"Linux")
+		pdftk $PDF_FILES cat output $2;;
+	*)
+		echo "Unknown OS"
+		exit 1
+esac
