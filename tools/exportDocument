@@ -1,0 +1,6 @@
+~/repos/maxio/tools/rM2svg -i f073469b-d37c-432f-84d1-45fdaf12400b.lines -o q6_annotated.svg
+for i in `ls q6*svg`; do rsvg-convert -w 540 -h 720 -f pdf $i > `sed "s/svg/pdf/g" <<< "$i"`; done
+pdftk *.pdf cat output q6_annotated.pdf
+#486 X 720
+pdfjam --papersize '{540pt,720pt}' --offset '-27pt 0pt' --outfile out.pdf f073469b-d37c-432f-84d1-45fdaf12400b.pdf
+pdftk out.pdf multistamp q6_annotations.pdf output q6.pdf
