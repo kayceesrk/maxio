@@ -1,6 +1,26 @@
-~/repos/maxio/tools/rM2svg -i f073469b-d37c-432f-84d1-45fdaf12400b.lines -o q6_annotated.svg
-for i in `ls q6*svg`; do rsvg-convert -w 540 -h 720 -f pdf $i > `sed "s/svg/pdf/g" <<< "$i"`; done
-pdftk *.pdf cat output q6_annotated.pdf
+#!/bin/bash
+
+if [ -z "$1" ] || [ -z "$2" ]
+  then
+    echo "Usage: $0 <input_file.lines> <ouput.pdf>"
+    exit 1
+fi
+
+PWD=`dirname "$0"`
+BASE=`basename $1 .lines`
+echo ${BASE}
+
+$PWD/rM2svg -i ${BASE}.lines -o ${BASE}.svg
+for i in `ls ${BASE}_*.svg`
+do
+  rsvg-convert -w 540 -h 720 -f pdf $i > `sed "s/svg/pdf/g" <<< "$i"`
+done
+
+PDF_FILES=`ls ${BASE}_*.pdf | sort -V`
+pdftk ${PDF_FILES} cat output ${BASE}_annotations.pdf
+rm ${PDF_FILES}
+rm `ls ${BASE}_*.svg`
 #486 X 720
-pdfjam --papersize '{540pt,720pt}' --offset '-27pt 0pt' --outfile out.pdf f073469b-d37c-432f-84d1-45fdaf12400b.pdf
-pdftk out.pdf multistamp q6_annotations.pdf output q6.pdf
+pdfjam --papersize '{540pt,720pt}' --offset '-27pt 0pt' --outfile ${BASE}_resized.pdf ${BASE}.pdf
+pdftk ${BASE}_resized.pdf multistamp ${BASE}_annotations.pdf output $2 
+rm ${BASE}_resized.pdf ${BASE}_annotations.pdf
