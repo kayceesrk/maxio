@@ -59,7 +59,7 @@ Say `f073469b-d37c-432f-84d1-45fdaf12400b.lines` containts the annotations of
 the interested file. The original filename can be found in the `visibleName`
 field in `f073469b-d37c-432f-84d1-45fdaf12400b.metadata`.
 
-$ exportDocument f073469b-d37c-432f-84d1-45fdaf12400b.lines out.pdf
+    $ exportDocument f073469b-d37c-432f-84d1-45fdaf12400b.lines out.pdf
 
 ### SSH configuration
 
