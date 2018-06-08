@@ -8,8 +8,8 @@ fi
 
 PWD=`dirname "$0"`
 BASE=`basename $1 .lines`
-WIDTH=`pdfinfo ${BASE}.pdf | grep "Page size:" | awk '{print $3}'`
-HEIGHT=`pdfinfo ${BASE}.pdf | grep "Page size:" | awk '{print $5}'`
+WIDTH=`pdfinfo ${BASE}.pdf | grep "Page size:" | awk '{printf "%.0f\n", $3}'`
+HEIGHT=`pdfinfo ${BASE}.pdf | grep "Page size:" | awk '{printf "%.0f\n", $5}'`
 OUTPUT=$2
 
 function scale_width {
