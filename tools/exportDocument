@@ -20,7 +20,7 @@ function scale_width {
 	$PWD/rM2svg -c -i ${BASE}.lines -o ${BASE}.svg
 	for i in `ls ${BASE}_*.svg`
 	do
-		rsvg-convert -w ${NEW_WIDTH} -h ${HEIGHT} -f pdf $i > `sed "s/svg/pdf/g" <<< "$i"`
+		rsvg-convert -w ${NEW_WIDTH} -h ${HEIGHT} -f pdf -o `sed "s/svg/pdf/g" <<< "$i"` `pwd`/$i
 	done
 
 	PDF_FILES=`ls ${BASE}_*.pdf | sort -V`
@@ -40,7 +40,7 @@ function scale_height {
 	$PWD/rM2svg -i ${BASE}.lines -o ${BASE}.svg
 	for i in `ls ${BASE}_*.svg`
 	do
-		rsvg-convert -w ${WIDTH} -h ${NEW_HEIGHT} -f pdf $i > `sed "s/svg/pdf/g" <<< "$i"`
+		rsvg-convert -w ${WIDTH} -h ${NEW_HEIGHT} -f pdf -o `sed "s/svg/pdf/g" <<< "$i"` `pwd`/$i
 	done
 
 	PDF_FILES=`ls ${BASE}_*.pdf | sort -V`
